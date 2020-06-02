@@ -12,12 +12,13 @@ import org.springframework.stereotype.Repository;
 @Repository
 public class UserDaoImpl implements UserDao {
     @Autowired
-    SessionFactory sessionFactory;
+    private SessionFactory sessionFactory;
 
     @Override
     public User add(User user) {
         Transaction transaction = null;
-        try (Session session = sessionFactory.openSession()) {
+        Session session = sessionFactory.openSession();
+        try {
             transaction = session.beginTransaction();
             session.save(user);
             transaction.commit();
@@ -27,11 +28,14 @@ public class UserDaoImpl implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Cant insert User entity", e);
+        } finally {
+            session.close();
         }
     }
 
     @Override
     public List<User> listUsers() {
+
         try (Session session = sessionFactory.openSession()) {
             return session
                     .createQuery("from User", User.class).list();
