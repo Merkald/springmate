@@ -17,8 +17,7 @@ public class UserDaoImpl implements UserDao {
     @Override
     public User add(User user) {
         Transaction transaction = null;
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             transaction = session.beginTransaction();
             session.save(user);
             transaction.commit();
@@ -28,21 +27,16 @@ public class UserDaoImpl implements UserDao {
                 transaction.rollback();
             }
             throw new RuntimeException("Cant insert User entity", e);
-        } finally {
-            session.close();
         }
     }
 
     @Override
     public List<User> listUsers() {
-        Session session = sessionFactory.openSession();
-        try {
+        try (Session session = sessionFactory.openSession()) {
             return session
                     .createQuery("from User", User.class).list();
         } catch (Exception e) {
             throw new RuntimeException("Can't get User ", e);
-        } finally {
-            session.close();
         }
     }
 }
