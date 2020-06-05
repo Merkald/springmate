@@ -2,10 +2,11 @@ package mate.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import mate.Main;
 import mate.model.User;
 import mate.model.UserResponceDto;
+import mate.service.UserService;
 import mate.util.HashUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -14,6 +15,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/user")
 public class UserController {
+    @Autowired
+    private UserService userService;
 
     @GetMapping("/inject")
     public void injectData() {
@@ -26,18 +29,18 @@ public class UserController {
             user.setFirstName("Name_" + i);
             user.setLastName("LName_" + i);
             user.setAge(i * 10);
-            Main.getUserService().add(user);
+            userService.add(user);
         }
     }
 
     @GetMapping("/{id}")
     public UserResponceDto get(@PathVariable(name = "id") Long id) {
-        return tranferUserToUserResponceDto(Main.getUserService().get(id));
+        return tranferUserToUserResponceDto(userService.get(id));
     }
 
     @GetMapping
     public List<UserResponceDto> getAll() {
-        List<User> list = Main.getUserService().listUsers();
+        List<User> list = userService.listUsers();
         List<UserResponceDto> result = new ArrayList<>();
         for (User u : list) {
             result.add(tranferUserToUserResponceDto(u));
