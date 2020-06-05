@@ -8,12 +8,13 @@ import model.UserResponceDto;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import service.UserService;
 import util.HashUtil;
 
 @RestController
+@RequestMapping("/user")
 public class UserController {
     private static AnnotationConfigApplicationContext context =
             new AnnotationConfigApplicationContext(AppConfig.class);
@@ -34,27 +35,25 @@ public class UserController {
         }
     }
 
-    @ResponseBody
     @GetMapping("/{id}")
     public UserResponceDto get(@PathVariable(name = "id") Long id) {
-        User user = userService.get(id);
-        UserResponceDto userDto = new UserResponceDto();
-        userDto.setName(user.getFirstName());
-        userDto.setEmail(user.getEmail());
-        return userDto;
+        return tranferUserToUserResponceDto(userService.get(id));
     }
 
-    @ResponseBody
     @GetMapping("/")
     public List<UserResponceDto> getAll() {
         List<User> list = userService.listUsers();
         List<UserResponceDto> result = new ArrayList<>();
         for (User u : list) {
-            UserResponceDto userResponceDto = new UserResponceDto();
-            userResponceDto.setEmail(u.getEmail());
-            userResponceDto.setName(u.getFirstName());
-            result.add(userResponceDto);
+            result.add(tranferUserToUserResponceDto(u));
         }
         return result;
+    }
+
+    private UserResponceDto tranferUserToUserResponceDto(User user) {
+        UserResponceDto userDto = new UserResponceDto();
+        userDto.setName(user.getFirstName());
+        userDto.setEmail(user.getEmail());
+        return userDto;
     }
 }
