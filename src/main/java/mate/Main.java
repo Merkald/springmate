@@ -1,7 +1,9 @@
-import config.AppConfig;
-import model.User;
+package mate;
+
+import mate.config.AppConfig;
+import mate.model.User;
+import mate.service.UserService;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
-import service.UserService;
 
 public class Main {
     private static AnnotationConfigApplicationContext context =
@@ -23,5 +25,9 @@ public class Main {
         user.setPassword("p1");
         userService.add(user);
         System.out.println(userService.listUsers());
+    }
+
+    public static UserService getUserService() {
+        return userService;
     }
 }

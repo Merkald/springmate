@@ -1,4 +1,4 @@
-package model;
+package mate.model;
 
 public class UserResponceDto {
     private String name;

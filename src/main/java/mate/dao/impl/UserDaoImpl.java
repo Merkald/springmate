@@ -1,8 +1,8 @@
-package dao.impl;
+package mate.dao.impl;
 
-import dao.UserDao;
 import java.util.List;
-import model.User;
+import mate.dao.UserDao;
+import mate.model.User;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
