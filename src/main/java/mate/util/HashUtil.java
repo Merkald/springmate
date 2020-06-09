@@ -1,4 +1,4 @@
-package util;
+package mate.util;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

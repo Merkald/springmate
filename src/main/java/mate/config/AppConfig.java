@@ -1,8 +1,8 @@
-package config;
+package mate.config;
 
 import java.util.Properties;
 import javax.sql.DataSource;
-import model.User;
+import mate.model.User;
 import org.apache.commons.dbcp2.BasicDataSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -15,7 +15,7 @@ import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 @Configuration
 @PropertySource("classpath:db.properties")
 @ComponentScan(basePackages = {
-        "dao","service"
+        "mate.dao", "mate.service"
 })
 public class AppConfig {
     @Autowired
